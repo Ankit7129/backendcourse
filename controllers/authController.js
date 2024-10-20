@@ -3,8 +3,8 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const Student = require('../models/Student');
 const College = require('../models/College');
-const BASE_URL = process.env.BASE_URL // Backend URL
-const CLIENT_URL = process.env.CLIENT_URL ; // Frontend URL
+const BASE_URL = `https://jambavantha-course-backend.onrender.com` // Backend URL
+const CLIENT_URL = `https://jambavantha-course-frontend.onrender.com` ; // Frontend URL
 
 // Send reset password email
 const sendResetEmail = async (req, res) => {
