@@ -5,8 +5,9 @@ const mongoose = require('mongoose');
 const studentSchema = new mongoose.Schema({
   name: { type: String, required: true },
   email: { type: String, required: true, unique: true },
-  phoneNumber: { type: String, required: true },
-  educationalBackground: { type: String, required: true },
+  phoneNumber: { type: String, required: true }, // Phone number is required
+  aadharNumber: { type: String, required: true, unique: true }, // Aadhaar number is required and unique
+  educationalBackground: { type: String, required: true }, // Will be updated for drop-down options
   password: { type: String, required: true },
   resetPasswordToken: { type: String }, // For password reset
   resetPasswordExpires: { type: Date }, // For expiration of reset token
@@ -16,7 +17,6 @@ const studentSchema = new mongoose.Schema({
   documents: [{
     documentType: { type: String, required: true }, // e.g., 'Class 10 Certificate'
     documentUrl: { type: String, required: true }, // URL or path to the stored document
-    aadharNumber: { type: String, required: true },
     verificationStatus: { type: String, enum: ['pending', 'verified', 'rejected'], default: 'pending' },
     rejectionReason: { type: String },
   }],

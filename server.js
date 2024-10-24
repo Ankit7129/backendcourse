@@ -5,6 +5,7 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 const path = require('path');
 const courseRoutes = require('./routes/courseRoutes'); // Import course routes
+const { admin, bucket } = require('./config/firebaseConfig'); // Import Firebase config
 
 dotenv.config();
 

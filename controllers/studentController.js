@@ -5,21 +5,26 @@ const { sendVerificationEmail } = require('./authController'); // Import the ema
 
 // Register a new student
 const registerStudent = async (req, res) => {
-    const { name, email, phoneNumber, educationalBackground, password } = req.body;
+    const { name, email, phoneNumber, aadharNumber, educationalBackground, password } = req.body;
 
     try {
         // Check if student exists
-        let student = await Student.findOne({ email });
-        if (student) return res.status(400).json({ message: 'Student already exists' });
+        let studentByEmail = await Student.findOne({ email });
+        if (studentByEmail) return res.status(400).json({ message: 'Student with this email already exists' });
+
+        // Check if Aadhaar number is unique
+        let studentByAadhar = await Student.findOne({ aadharNumber });
+        if (studentByAadhar) return res.status(400).json({ message: 'Aadhaar number already exists' });
 
         // Hash password
         const hashedPassword = await bcrypt.hash(password, 10);
 
         // Create student
-        student = new Student({
+        const student = new Student({
             name,
             email,
             phoneNumber,
+            aadharNumber, // Include Aadhaar number
             educationalBackground,
             password: hashedPassword,
             isVerified: false // Email needs to be verified
@@ -36,6 +41,7 @@ const registerStudent = async (req, res) => {
         res.status(500).json({ message: 'Server error' });
     }
 };
+
 
 // Login a student
 const loginStudent = async (req, res) => {
@@ -69,6 +75,8 @@ const loginStudent = async (req, res) => {
                 email: student.email,
                 phoneNumber: student.phoneNumber,
                 educationalBackground: student.educationalBackground,
+                aadharNumber: student.aadharNumber, // Include Aadhar number
+
                 // Add other fields you want to include
             }
         });
